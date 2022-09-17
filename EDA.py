@@ -58,3 +58,44 @@ print('The average number of words: {}'.format(train_df['text_word_count'].mean(
 
 # a look at the essay's scores with maximum words(3814F9116CD1):
 train_df[train_df.text_word_count == train_df.text_word_count.max()]
+
+#Essay EDA
+
+# single sentence essays:
+train_df[train_df.sent_count == train_df.sent_count.min()]
+
+#Score vs Text length 
+
+# lets find out how the total_score is affected by length of the full_text (text_len):
+score_text_len = train_df.groupby('total_score')['text_len'].mean().sort_values()
+
+#plot the graph for length of prediction string per type:
+score_text_len.plot(kind = 'barh', figsize = (12,8))
+plt.xlabel('Mean Text length')
+plt.title(' Relationship between length of texts and scoring')
+
+#Number of words vs Score
+
+# lets find out how the total_score is affected by number of words in the full_text (text_word_count):
+score_word_count = train_df.groupby('total_score')['text_word_count'].mean().sort_values()
+
+#plot the graph for length of prediction string per type:
+score_word_count.plot(kind = 'barh', figsize = (12,8))
+plt.xlabel('Average Word_count')
+plt.title(' Relationship between number of words and scoring')
+
+# Number of sentences vs Score
+
+# lets find out how the total_score is affected by number of words in the full_text (text_word_count):
+score_sent_count = train_df.groupby('total_score')['sent_count'].mean().sort_values()
+
+#plot the graph for length of prediction string per type:
+score_sent_count.plot(kind = 'barh', figsize = (12,8))
+plt.xlabel('Average Sent_count')
+plt.title(' Relationship between number of sentences and scoring')
+
+# Corrlattion between all 6 scoring 
+
+plt.figure(figsize=(15,15))
+colormap = sns.color_palette("Blues")
+sns.heatmap(train_df.corr(), annot=True, cmap=colormap)
